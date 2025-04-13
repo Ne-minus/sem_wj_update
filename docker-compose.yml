@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  neminova-inference:
+    build: .
+    container_name: neminova-inference-container
+    volumes:
+      - ./results:/app/results
+    environment:
+      - CUDA_VISIBLE_DEVICES=0,1
+      - NCCL_DEBUG=INFO
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 2
+              capabilities: [gpu]
+    runtime: nvidia
